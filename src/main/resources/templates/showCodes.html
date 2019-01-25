@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+        <title>Welcome</title>
+       
+    </head>
+    <body>
+        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+        <p th:inline="text">Click on the code you want to use.</p>
+        <table id="userCodes">
+            <tr th:if="${codes.empty}">
+	            <td colspan="2"> The user has no codes </td>
+	        </tr>
+	        <tr th:each="code : ${codes}">
+	        	<td>
+		        	<form method="POST" th:action="@{/useCodes}">
+					    <input type="hidden" name="codeId" id="codeId" th:value="${code.codeId}" />
+					    <button type="submit" name="submit" value="value" class="link-button">Use the code</button>
+					</form>
+				</td>
+	            <td><span hidden="true" th:text="${code.codeId}"> Id </span></td>
+	        	<th>Code:</th>
+	            <td><span th:text="${code.code}"> Code </span></td>
+	            <th>Used:</th>
+	            <td><span th:text="${code.used}"> Used </span></td>
+	        </tr>
+	        
+    	</table>
+    	<form th:action="@{/generateCode}" method="post">
+            <input type="submit" value="Create new code"/>
+        </form>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </body>
+</html>
