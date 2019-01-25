@@ -1,0 +1,29 @@
+DROP database IF EXISTS code_generator;
+-- Create database
+CREATE database IF NOT EXISTS code_generator
+DEFAULT CHARACTER SET utf8
+DEFAULT COLLATE utf8_general_ci;
+  
+USE code_generator;
+
+CREATE TABLE IF NOT EXISTS user(
+	id_user BIGINT PRIMARY KEY AUTO_INCREMENT,
+	user_name VARCHAR(25) UNIQUE NOT NULL,
+	name VARCHAR(25) NOT NULL,
+	surname VARCHAR(50),
+	password VARCHAR(25) NOT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS code(
+	id_code BIGINT PRIMARY KEY AUTO_INCREMENT,
+	code VARCHAR(25) UNIQUE,
+	used BOOLEAN DEFAULT false,
+	id_user BIGINT,
+	FOREIGN KEY (id_user)
+		REFERENCES user(id_user)
+		ON UPDATE CASCADE ON DELETE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
